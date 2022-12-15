@@ -95,18 +95,32 @@ posts.forEach((elem) => {
 const itemsSlider = document.querySelector('.posts-list');
 itemsSlider.innerHTML += itemsContent;
 
-const miPiace = document.getElementsByClassName('js-like-button') 
+const miPiace = document.getElementsByClassName('js-like-button');
+const arrayLike = [];
 
-for (let i = 0; i < miPiace.length; i++){
-    
-    miPiace[i].addEventListener('click',function(){
+for (let i=0; i<miPiace.length; i++){
 
-        miPiace[i].classList.add("like-button--liked")
-        const postId = this.dataset.postid
-        const likes = document.getElementById(`like-counter-${postId}`)
-        const likesNumber = parseInt(likes.innerText)
+    miPiace[i].addEventListener('click', function(){
 
-        likes.innerText = likesNumber+1
-            console.log(likesNumber)
-    })
+        const postId = this.dataset.postid;
+        const likes = document.getElementById(`like-counter-${postId}`);
+        const likesNumber = parseInt(likes.innerText);
+
+        if(arrayLike.includes(postId)){
+            likes.innerText = likesNumber-1;
+
+            const index = arrayLike.indexOf(postId);
+            if(index > -1){
+                arrayLike.splice(index,1);
+            }
+            miPiace[i].classList.remove("like-button--liked");
+            console.log(arrayLike);
+        }else{
+            likes.innerText = likesNumber+1;
+            arrayLike.push(postId);
+            console.log(arrayLike);
+            miPiace[i].classList.add("like-button--liked");
+        }
+
+    });
 }
